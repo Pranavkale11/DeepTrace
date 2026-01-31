@@ -1,0 +1,117 @@
+@import "tailwindcss";
+
+:root {
+  /* Cyber Palette */
+  --background: #020202;
+  --foreground: #e0e0e0;
+
+  --primary: #00ff41;
+  /* Cyber Green */
+  --primary-dim: #00cc33;
+  --primary-glow: rgba(0, 255, 65, 0.4);
+
+  --secondary: #00f3ff;
+  /* Cyber Blue */
+  --secondary-dim: #00c2cc;
+  --secondary-glow: rgba(0, 243, 255, 0.4);
+
+  --accent: #ff003c;
+  /* Alert Red */
+  --accent-glow: rgba(255, 0, 60, 0.4);
+
+  --surface: #080808;
+  --surface-highlight: #111111;
+  --border: #222222;
+
+  --glass: rgba(10, 10, 10, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.08);
+
+  /* Risk Levels */
+  --risk-low: #00ff41;
+  --risk-medium: #ffe600;
+  --risk-high: #ff003c;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-dim: var(--primary-dim);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-surface: var(--surface);
+  --color-surface-highlight: var(--surface-highlight);
+  --color-border: var(--border);
+
+  --color-risk-low: var(--risk-low);
+  --color-risk-medium: var(--risk-medium);
+  --color-risk-high: var(--risk-high);
+
+  --font-sans: var(--font-outfit), ui-sans-serif, system-ui;
+  --font-body: var(--font-inter), ui-sans-serif, system-ui;
+  --font-mono: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Utilities */
+.glass {
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+}
+
+.glass-card {
+  background: rgba(15, 15, 15, 0.6);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+}
+
+.neon-text-green {
+  text-shadow: 0 0 10px var(--primary-glow);
+}
+
+.neon-text-blue {
+  text-shadow: 0 0 10px var(--secondary-glow);
+}
+
+.neon-border-green {
+  box-shadow: 0 0 8px var(--primary-glow);
+  border-color: var(--primary);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* Scanline effect (subtle) */
+.scanline {
+  background: linear-gradient(to bottom,
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0) 50%,
+      rgba(0, 0, 0, 0.1) 50%,
+      rgba(0, 0, 0, 0.1));
+  background-size: 100% 4px;
+}
