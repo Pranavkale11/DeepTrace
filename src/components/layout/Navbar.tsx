@@ -7,6 +7,7 @@ import { ShieldAlert, Menu, X, Radio } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
+import { ThemeToggle } from '@/components/layout/ThemeToggle';
 
 export function Navbar() {
     const pathname = usePathname();
@@ -50,6 +51,7 @@ export function Navbar() {
 
                 {/* Auth Buttons */}
                 <div className="hidden md:flex items-center gap-4">
+                    <ThemeToggle />
                     <Link href="/login">
                         <Button variant="ghost" size="sm">Log In</Button>
                     </Link>

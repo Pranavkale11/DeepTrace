@@ -14,9 +14,9 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
                 className={cn(
                     'relative rounded-md overflow-hidden transition-all duration-300',
                     {
-                        'bg-surface border border-border': variant === 'default',
+                        'bg-[var(--surface)] border border-[var(--border)]': variant === 'default',
                         'glass-card': variant === 'glass',
-                        'bg-black border border-primary/50 shadow-[0_0_15px_rgba(0,255,65,0.1)]': variant === 'neon',
+                        'bg-[var(--surface)] border border-primary/50 shadow-[0_0_15px_rgba(0,255,65,0.1)]': variant === 'neon',
                         'p-6': !noPadding,
                     },
                     className
