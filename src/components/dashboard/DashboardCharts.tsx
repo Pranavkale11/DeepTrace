@@ -2,6 +2,7 @@
 
 import { PieChart, Pie, Cell, ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import { Card } from '@/components/ui/Card';
+import { useState, useEffect } from 'react';
 
 const dataPie = [
     { name: 'Low Risk', value: 45, color: '#00ff41' },
@@ -20,6 +21,23 @@ const dataArea = [
 ];
 
 export function DashboardCharts() {
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    if (!mounted) {
+        return <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <Card className="min-h-[400px] flex items-center justify-center">
+                <div className="w-8 h-8 rounded-full border-2 border-primary border-t-transparent animate-spin"></div>
+            </Card>
+            <Card className="min-h-[400px] flex items-center justify-center">
+                <div className="w-8 h-8 rounded-full border-2 border-secondary border-t-transparent animate-spin"></div>
+            </Card>
+        </div>;
+    }
+
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
             <Card className="min-h-[400px]">

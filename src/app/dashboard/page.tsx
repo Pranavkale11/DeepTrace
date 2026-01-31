@@ -1,3 +1,5 @@
+'use client';
+
 import { StatCard } from '@/components/dashboard/StatCard';
 import { DashboardCharts } from '@/components/dashboard/DashboardCharts';
 import { AlertCircle, Globe, Share2, Shield } from 'lucide-react';
@@ -21,6 +23,7 @@ export default function DashboardPage() {
                     trendUp={true}
                     icon={Share2}
                     variant="default"
+                    index={0}
                 />
                 <StatCard
                     title="High Risk Alerts"
@@ -29,6 +32,7 @@ export default function DashboardPage() {
                     trendUp={true}
                     icon={AlertCircle}
                     variant="danger"
+                    index={1}
                 />
                 <StatCard
                     title="Bot Networks"
@@ -37,6 +41,7 @@ export default function DashboardPage() {
                     trendUp={false}
                     icon={Globe}
                     variant="warning"
+                    index={2}
                 />
                 <StatCard
                     title="Mitigated Threats"
@@ -45,6 +50,7 @@ export default function DashboardPage() {
                     trendUp={true}
                     icon={Shield}
                     variant="success"
+                    index={3}
                 />
             </div>
 
@@ -84,8 +90,8 @@ export default function DashboardPage() {
                                     <td className="px-6 py-4 font-mono text-gray-300 group-hover:text-primary transition-colors">{row.id}</td>
                                     <td className="px-6 py-4">
                                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded text-xs font-bold uppercase tracking-wider ${row.sev === 'High' ? 'bg-red-900/20 text-red-500 border border-red-500/50 shadow-[0_0_10px_rgba(255,0,0,0.2)]' :
-                                                row.sev === 'Medium' ? 'bg-yellow-900/20 text-yellow-500 border border-yellow-500/50' :
-                                                    'bg-green-900/20 text-green-500 border border-green-500/50'
+                                            row.sev === 'Medium' ? 'bg-yellow-900/20 text-yellow-500 border border-yellow-500/50' :
+                                                'bg-green-900/20 text-green-500 border border-green-500/50'
                                             }`}>
                                             {row.sev}
                                         </span>
