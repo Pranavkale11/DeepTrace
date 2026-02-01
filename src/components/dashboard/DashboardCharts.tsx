@@ -2,7 +2,6 @@
 
 import { PieChart, Pie, Cell, ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import { Card } from '@/components/ui/Card';
-import { useState, useEffect } from 'react';
 
 const dataPie = [
     { name: 'Low Risk', value: 45, color: '#00ff41' },
@@ -21,92 +20,120 @@ const dataArea = [
 ];
 
 export function DashboardCharts() {
-    const [mounted, setMounted] = useState(false);
-
-    useEffect(() => {
-        setMounted(true);
-    }, []);
-
-    if (!mounted) {
-        return <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-            <Card className="min-h-[400px] flex items-center justify-center">
-                <div className="w-8 h-8 rounded-full border-2 border-primary border-t-transparent animate-spin"></div>
-            </Card>
-            <Card className="min-h-[400px] flex items-center justify-center">
-                <div className="w-8 h-8 rounded-full border-2 border-secondary border-t-transparent animate-spin"></div>
-            </Card>
-        </div>;
-    }
-
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-            <Card className="min-h-[400px]">
-                <div className="mb-6 flex justify-between items-center">
-                    <h3 className="text-lg font-bold text-white">Threat Distribution by Severity</h3>
-                    <select className="bg-black border border-white/10 rounded text-xs px-2 py-1 text-gray-400 focus:outline-none focus:border-primary">
-                        <option>Last 24 Hours</option>
-                        <option>Last 7 Days</option>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <Card className="min-h-[420px] flex flex-col shadow-sm">
+                <div className="mb-8 flex justify-between items-center px-2">
+                    <h3 className="text-lg font-bold text-foreground">Threat Distribution</h3>
+                    <select className="bg-surface border border-border rounded-lg text-[10px] font-bold tracking-widest px-3 py-1.5 text-text-muted focus:outline-none focus:border-primary transition-all shadow-sm">
+                        <option>LAST 24 HOURS</option>
+                        <option>LAST 7 DAYS</option>
+                        <option>LAST 30 DAYS</option>
                     </select>
                 </div>
-                <div className="h-[250px] w-full">
+                <div className="flex-1 h-[260px] w-full relative">
                     <ResponsiveContainer width="100%" height="100%">
                         <PieChart>
                             <Pie
                                 data={dataPie}
                                 cx="50%"
                                 cy="50%"
-                                innerRadius={60}
-                                outerRadius={90}
-                                paddingAngle={5}
+                                innerRadius={70}
+                                outerRadius={100}
+                                paddingAngle={8}
                                 dataKey="value"
                                 stroke="none"
+                                animationDuration={1000}
+                                animationBegin={0}
                             >
                                 {dataPie.map((entry, index) => (
                                     <Cell key={`cell-${index}`} fill={entry.color} />
                                 ))}
                             </Pie>
                             <Tooltip
-                                contentStyle={{ backgroundColor: '#050505', borderColor: '#333', color: '#fff', borderRadius: '8px' }}
-                                itemStyle={{ color: '#fff' }}
+                                contentStyle={{
+                                    backgroundColor: 'var(--surface)',
+                                    borderColor: 'var(--border)',
+                                    color: 'var(--foreground)',
+                                    borderRadius: '12px',
+                                    fontSize: '12px',
+                                    boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)'
+                                }}
+                                itemStyle={{ color: 'var(--foreground)' }}
                             />
                         </PieChart>
                     </ResponsiveContainer>
+                    {/* Center Text */}
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
+                        <p className="text-3xl font-bold text-foreground">1,240</p>
+                        <p className="text-[10px] text-text-muted font-bold tracking-widest uppercase">Total Threats</p>
+                    </div>
                 </div>
-                <div className="flex justify-center gap-6 text-sm mt-6">
+                <div className="flex justify-center gap-8 text-[11px] font-bold tracking-tight mt-6 pb-2">
                     {dataPie.map((item) => (
-                        <div key={item.name} className="flex items-center gap-2">
-                            <span className="w-3 h-3 rounded-full shadow-[0_0_5px_currentColor]" style={{ backgroundColor: item.color, color: item.color }} />
-                            <span className="text-gray-300 font-medium">{item.name}</span>
+                        <div key={item.name} className="flex items-center gap-2.5">
+                            <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: item.color }} />
+                            <span className="text-text-muted uppercase tracking-wider">{item.name}</span>
                         </div>
                     ))}
                 </div>
             </Card>
 
-            <Card className="min-h-[400px]">
-                <div className="mb-6 flex justify-between items-center">
-                    <h3 className="text-lg font-bold text-white">Network Activity Volume</h3>
-                    <div className="flex gap-2">
-                        <span className="flex h-2 w-2 rounded-full bg-secondary animate-pulse" />
-                        <span className="text-xs text-secondary font-mono">LIVE FEED</span>
+            <Card className="min-h-[420px] flex flex-col shadow-sm">
+                <div className="mb-8 flex justify-between items-center px-2">
+                    <h3 className="text-lg font-bold text-foreground">Scanned Network Traffic</h3>
+                    <div className="flex items-center gap-3">
+                        <span className="flex h-2 w-2 rounded-full bg-secondary animate-pulse shadow-[0_0_8px_var(--secondary)]" />
+                        <span className="text-[10px] text-secondary font-bold tracking-[0.2em]">LIVE ENGINE</span>
                     </div>
                 </div>
-                <div className="h-[280px] w-full">
+                <div className="flex-1 h-[280px] w-full">
                     <ResponsiveContainer width="100%" height="100%">
                         <AreaChart data={dataArea}>
                             <defs>
                                 <linearGradient id="colorActivity" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="5%" stopColor="#00f3ff" stopOpacity={0.3} />
-                                    <stop offset="95%" stopColor="#00f3ff" stopOpacity={0} />
+                                    <stop offset="5%" stopColor="var(--secondary)" stopOpacity={0.2} />
+                                    <stop offset="95%" stopColor="var(--secondary)" stopOpacity={0} />
                                 </linearGradient>
                             </defs>
-                            <CartesianGrid strokeDasharray="3 3" stroke="#222" vertical={false} />
-                            <XAxis dataKey="time" stroke="#666" fontSize={12} tickLine={false} axisLine={false} dy={10} />
-                            <YAxis stroke="#666" fontSize={12} tickLine={false} axisLine={false} dx={-10} />
-                            <Tooltip
-                                contentStyle={{ backgroundColor: '#050505', borderColor: '#333', color: '#fff', borderRadius: '8px' }}
-                                cursor={{ stroke: '#fff', strokeWidth: 1, strokeDasharray: '4 4' }}
+                            <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} opacity={0.5} />
+                            <XAxis
+                                dataKey="time"
+                                stroke="var(--text-dim)"
+                                fontSize={10}
+                                tickLine={false}
+                                axisLine={false}
+                                dy={15}
+                                letterSpacing={1}
                             />
-                            <Area type="monotone" dataKey="activity" stroke="#00f3ff" fillOpacity={1} fill="url(#colorActivity)" strokeWidth={2} />
+                            <YAxis
+                                stroke="var(--text-dim)"
+                                fontSize={10}
+                                tickLine={false}
+                                axisLine={false}
+                                dx={-10}
+                            />
+                            <Tooltip
+                                contentStyle={{
+                                    backgroundColor: 'var(--surface)',
+                                    borderColor: 'var(--border)',
+                                    color: 'var(--foreground)',
+                                    borderRadius: '12px',
+                                    padding: '12px',
+                                    fontSize: '12px',
+                                    boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)'
+                                }}
+                                cursor={{ stroke: 'var(--primary)', strokeWidth: 1, strokeDasharray: '4 4' }}
+                            />
+                            <Area
+                                type="monotone"
+                                dataKey="activity"
+                                stroke="var(--secondary)"
+                                fillOpacity={1}
+                                fill="url(#colorActivity)"
+                                strokeWidth={3}
+                                animationDuration={1500}
+                            />
                         </AreaChart>
                     </ResponsiveContainer>
                 </div>

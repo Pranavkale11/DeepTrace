@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/Button';
 import { ArrowLeft, Download, AlertOctagon, TrendingUp, Users, FileText, Zap } from 'lucide-react';
 import Link from 'next/link';
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
+import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
 
 const spreadData = [
     { time: 'T-24h', mentions: 120 },
@@ -17,67 +19,95 @@ const spreadData = [
 
 export default function CampaignDetailsPage() {
     const params = useParams();
-    const id = params.id; // In a real app, fetch data based on ID
+    const id = params.id;
 
     return (
-        <div className="space-y-6 animate-in fade-in slide-in-from-right duration-500 pb-10">
-            <div className="flex flex-col md:flex-row items-center gap-4 mb-4 justify-between">
-                <div className="flex items-center gap-4 w-full md:w-auto">
+        <div className="space-y-10 animate-in fade-in slide-in-from-right duration-700 pb-10">
+            <div className="flex flex-col lg:flex-row lg:items-center gap-6 mb-4 justify-between">
+                <div className="flex items-center gap-6 w-full lg:w-auto">
                     <Link href="/dashboard/campaigns">
-                        <Button variant="ghost" size="sm" className="pl-0 hover:pl-2 transition-all"><ArrowLeft className="w-4 h-4 mr-2" /> Back</Button>
+                        <Button variant="ghost" size="sm" className="pl-0 hover:pl-2 transition-all text-text-muted hover:text-foreground">
+                            <ArrowLeft className="w-4 h-4 mr-2" /> BACK
+                        </Button>
                     </Link>
+                    <div className="h-10 w-px bg-border hidden md:block" />
                     <div>
-                        <div className="flex items-center gap-3">
-                            <h1 className="text-xl md:text-2xl font-bold text-white tracking-wide">#KhalistanReferendum Botnet</h1>
-                            <span className="px-2 py-0.5 rounded bg-red-900/40 text-red-500 border border-red-500/30 text-[10px] font-bold uppercase tracking-wider shadow-[0_0_10px_rgba(255,0,0,0.3)] animate-pulse">Critical Risk</span>
+                        <div className="flex flex-wrap items-center gap-3">
+                            <h1 className="text-2xl md:text-3xl font-bold text-foreground tracking-tight">#KhalistanReferendum Botnet</h1>
+                            <span className="px-3 py-1 rounded-full bg-risk-high/10 text-risk-high border border-risk-high/30 text-[10px] font-bold uppercase tracking-widest shadow-lg shadow-risk-high/10 animate-pulse">
+                                CRITICAL RISK
+                            </span>
                         </div>
-                        <p className="text-gray-400 text-xs font-mono mt-1">CAMPAIGN ID: {id} // DETECTED VIA HEURISTIC SCANNER A-7</p>
+                        <p className="text-text-muted text-[10px] font-mono mt-1.5 flex items-center gap-2">
+                            <span className="text-primary font-bold">CAMPAIGN ID:</span> {id}
+                            <span className="text-text-dim px-2">|</span>
+                            <span className="text-primary font-bold">MODE:</span> HEURISTIC SCANNER A-7
+                        </p>
                     </div>
                 </div>
-                <div className="flex gap-3 w-full md:w-auto">
-                    <Button variant="outline"><Download className="w-4 h-4 mr-2" /> Export Evidence Pack</Button>
-                    <Button variant="danger" className="shadow-[0_0_15px_rgba(255,0,60,0.4)]"><AlertOctagon className="w-4 h-4 mr-2" /> Initiate Takedown Protocol</Button>
+                <div className="flex flex-wrap gap-3 w-full lg:w-auto">
+                    <Button variant="outline" className="font-bold text-[10px] tracking-widest flex-1 lg:flex-none py-2.5">
+                        <Download className="w-4 h-4 mr-2" /> EXPORT EVIDENCE
+                    </Button>
+                    <Button variant="danger" className="font-bold text-[10px] tracking-widest flex-1 lg:flex-none shadow-xl shadow-risk-high/20 py-2.5">
+                        <AlertOctagon className="w-4 h-4 mr-2" /> INITIATE TAKEDOWN
+                    </Button>
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Main Narrative */}
-                <Card className="lg:col-span-2">
-                    <div className="flex items-center justify-between mb-4 border-b border-white/5 pb-4">
-                        <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                            <FileText className="w-5 h-5 text-primary" /> Narrative Analysis
+                <Card className="lg:col-span-2 shadow-sm border-t-2 border-primary">
+                    <div className="flex items-center justify-between mb-8 border-b border-border pb-6 bg-surface-highlight/10 px-2 -mx-2 -mt-2 rounded-t-lg">
+                        <h3 className="text-lg font-bold text-foreground flex items-center gap-3">
+                            <div className="p-2 bg-primary/10 rounded-lg text-primary">
+                                <FileText className="w-5 h-5" />
+                            </div>
+                            Narrative Analysis
                         </h3>
-                        <span className="text-xs text-gray-500 font-mono">CONFIDENCE SCORE: 99.2%</span>
+                        <div className="text-right">
+                            <span className="text-[10px] text-text-muted font-bold block">CONFIDENCE SCORE</span>
+                            <span className="text-primary font-mono font-bold text-sm">99.2%</span>
+                        </div>
                     </div>
-                    <div className="space-y-6 text-gray-300 text-sm leading-relaxed">
-                        <div className="p-4 bg-white/5 rounded border border-white/10">
-                            <p className="text-white font-medium mb-1">Core Narrative</p>
-                            <p className="text-gray-400">The campaign is artificially amplifying support for separationist movements, using manipulated images and coordinated hashtags to feign global consensus.</p>
+                    <div className="space-y-8 px-2">
+                        <div className="p-5 bg-surface-highlight/30 rounded-xl border border-border group hover:bg-surface-highlight transition-colors duration-300">
+                            <p className="text-[10px] font-bold text-primary uppercase tracking-[0.2em] mb-2">Core Narrative</p>
+                            <p className="text-foreground leading-relaxed">
+                                The campaign is artificially amplifying support for separationist movements, using manipulated images and coordinated hashtags to feign global consensus.
+                            </p>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <p className="text-xs font-bold text-gray-500 uppercase mb-2">Origin Point</p>
-                                <p className="text-white">Traced back to a server farm in Region Z. Initially seeded via verified compromised accounts.</p>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div className="space-y-3">
+                                <p className="text-[10px] font-bold text-text-muted uppercase tracking-[0.2em]">Origin Point</p>
+                                <div className="p-4 bg-surface-highlight/20 rounded-lg border border-border border-dashed font-medium text-foreground">
+                                    Traced back to a server farm in Region Z. Initially seeded via verified compromised accounts.
+                                </div>
                             </div>
-                            <div>
-                                <p className="text-xs font-bold text-gray-500 uppercase mb-2">Tactics Employed</p>
-                                <ul className="list-disc list-inside text-gray-400 marker:text-primary">
-                                    <li>Hashtag Hijacking</li>
-                                    <li>Sleeper Bot Activation</li>
-                                    <li>Deepfake Audio Clips</li>
+                            <div className="space-y-3">
+                                <p className="text-[10px] font-bold text-text-muted uppercase tracking-[0.2em]">Tactics Employed</p>
+                                <ul className="space-y-2.5">
+                                    {['Hashtag Hijacking', 'Sleeper Bot Activation', 'Deepfake Audio Clips'].map(t => (
+                                        <li key={t} className="flex items-center gap-3 text-sm text-foreground font-medium">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                                            {t}
+                                        </li>
+                                    ))}
                                 </ul>
                             </div>
                         </div>
 
-                        <div className="p-4 bg-black/40 rounded border border-secondary/20 mt-4 relative overflow-hidden group">
-                            <div className="absolute inset-0 bg-secondary/5 group-hover:bg-secondary/10 transition-colors"></div>
-                            <p className="font-mono text-xs text-secondary mb-3 flex items-center gap-2 uppercase tracking-wider relative z-10">
-                                <Zap className="w-3 h-3" /> AI Extracted Keyphrases
+                        <div className="p-6 bg-surface-highlight/50 rounded-xl border border-secondary/20 relative overflow-hidden group">
+                            <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                                <Zap className="w-12 h-12 text-secondary" />
+                            </div>
+                            <p className="font-bold text-[10px] text-secondary mb-4 flex items-center gap-2 uppercase tracking-[0.2em]">
+                                <Zap className="w-3.5 h-3.5 animate-pulse" /> AI Extracted Keyphrases
                             </p>
-                            <div className="flex flex-wrap gap-2 relative z-10">
+                            <div className="flex flex-wrap gap-2.5">
                                 {['"Referendum 2026"', '"State Oppression"', '"Human Rights"', '"UN Intervention"', '"Freedom March"'].map(tag => (
-                                    <span key={tag} className="px-2 py-1.5 rounded bg-black/60 border border-secondary/30 text-secondary text-xs font-mono hover:bg-secondary/20 transition-colors cursor-default">{tag}</span>
+                                    <span key={tag} className="px-3 py-1.5 rounded-lg bg-surface border border-secondary/20 text-secondary text-[11px] font-mono font-bold hover:bg-secondary/10 hover:border-secondary/40 transition-all cursor-default shadow-sm">{tag}</span>
                                 ))}
                             </div>
                         </div>
@@ -85,97 +115,124 @@ export default function CampaignDetailsPage() {
                 </Card>
 
                 {/* Bot Probability */}
-                <Card className="relative overflow-hidden">
-                    <div className="absolute top-0 right-0 p-3 opacity-10">
-                        <Users className="w-24 h-24" />
-                    </div>
-                    <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2 relative z-10">
-                        <Users className="w-5 h-5 text-accent" /> Bot Configuration
+                <Card className="relative overflow-hidden shadow-sm border-t-2 border-risk-high">
+                    <h3 className="text-lg font-bold text-foreground mb-10 flex items-center gap-3">
+                        <div className="p-2 bg-risk-high/10 rounded-lg text-risk-high">
+                            <Users className="w-5 h-5" />
+                        </div>
+                        Bot Intelligence
                     </h3>
 
-                    <div className="flex flex-col items-center justify-center py-6 relative z-10">
-                        <div className="relative inline-flex items-center justify-center mb-6">
-                            <svg className="w-40 h-40 transform -rotate-90">
-                                <circle cx="80" cy="80" r="70" stroke="#222" strokeWidth="10" fill="transparent" />
-                                <circle cx="80" cy="80" r="70" stroke="#ff003c" strokeWidth="10" fill="transparent" strokeDasharray="440" strokeDashoffset="25" strokeLinecap="round" className="drop-shadow-[0_0_15px_rgba(255,0,60,0.6)] animate-[dash_1.5s_ease-out_forwards]" />
+                    <div className="flex flex-col items-center justify-center py-4">
+                        <div className="relative inline-flex items-center justify-center mb-10 group">
+                            <svg className="w-48 h-48 transform -rotate-90 transition-transform duration-1000">
+                                <circle cx="96" cy="96" r="80" stroke="var(--border)" strokeWidth="12" fill="transparent" />
+                                <circle
+                                    cx="96"
+                                    cy="96"
+                                    r="80"
+                                    stroke="var(--risk-high)"
+                                    strokeWidth="12"
+                                    fill="transparent"
+                                    strokeDasharray="502.4"
+                                    strokeDashoffset="25.12"
+                                    strokeLinecap="round"
+                                    className="drop-shadow-[0_0_15px_var(--accent-glow)] opacity-90 transition-all duration-1000 group-hover:opacity-100"
+                                />
                             </svg>
                             <div className="absolute flex flex-col items-center">
-                                <span className="text-4xl font-bold text-white tracking-tighter">95%</span>
-                                <span className="text-[10px] font-bold text-accent uppercase tracking-widest mt-1">Bot Probability</span>
+                                <span className="text-5xl font-black text-foreground tracking-tighter">95%</span>
+                                <span className="text-[10px] font-black text-risk-high uppercase tracking-[0.25em] mt-1.5">BOT PROBABILITY</span>
                             </div>
                         </div>
 
-                        <div className="w-full space-y-4 px-4">
-                            <div className="space-y-1">
-                                <div className="flex justify-between text-xs font-medium">
-                                    <span className="text-gray-400">Account Age &lt; 30 days</span>
-                                    <span className="text-white">92% Match</span>
+                        <div className="w-full space-y-6 px-4">
+                            {[
+                                { label: 'Account Age < 30 days', val: 92, color: 'var(--risk-high)' },
+                                { label: 'Foreign IP Address', val: 88, color: 'var(--risk-medium)' },
+                                { label: 'Posting Pattern', val: 99, color: 'var(--primary)' }
+                            ].map(item => (
+                                <div key={item.label} className="space-y-2">
+                                    <div className="flex justify-between text-[11px] font-bold uppercase tracking-wider">
+                                        <span className="text-text-muted">{item.label}</span>
+                                        <span className="text-foreground">{item.val}% Match</span>
+                                    </div>
+                                    <div className="w-full bg-surface-highlight h-2 rounded-full overflow-hidden border border-border shadow-inner">
+                                        <motion.div
+                                            initial={{ width: 0 }}
+                                            animate={{ width: `${item.val}%` }}
+                                            transition={{ duration: 1.5, ease: "circOut" }}
+                                            style={{ backgroundColor: item.color }}
+                                            className="h-full rounded-full"
+                                        />
+                                    </div>
                                 </div>
-                                <div className="w-full bg-gray-800 h-1.5 rounded-full overflow-hidden">
-                                    <div className="bg-accent h-full w-[92%] rounded-full shadow-[0_0_10px_red]"></div>
-                                </div>
-                            </div>
-
-                            <div className="space-y-1">
-                                <div className="flex justify-between text-xs font-medium">
-                                    <span className="text-gray-400">Foreign IP Address</span>
-                                    <span className="text-white">88% Match</span>
-                                </div>
-                                <div className="w-full bg-gray-800 h-1.5 rounded-full overflow-hidden">
-                                    <div className="bg-yellow-500 h-full w-[88%] rounded-full"></div>
-                                </div>
-                            </div>
-
-                            <div className="space-y-1">
-                                <div className="flex justify-between text-xs font-medium">
-                                    <span className="text-gray-400">Posting Pattern (Automated)</span>
-                                    <span className="text-white">99% Match</span>
-                                </div>
-                                <div className="w-full bg-gray-800 h-1.5 rounded-full overflow-hidden">
-                                    <div className="bg-primary h-full w-[99%] rounded-full"></div>
-                                </div>
-                            </div>
+                            ))}
                         </div>
                     </div>
                 </Card>
 
                 {/* Spread Timeline */}
-                <Card className="lg:col-span-3 h-[450px]">
-                    <div className="flex items-center justify-between mb-6">
-                        <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                            <TrendingUp className="w-5 h-5 text-secondary" /> Spread Velocity Analysis
+                <Card className="lg:col-span-3 h-[500px] shadow-sm overflow-hidden">
+                    <div className="flex items-center justify-between mb-10 px-2 pt-2">
+                        <h3 className="text-lg font-bold text-foreground flex items-center gap-3">
+                            <div className="p-2 bg-secondary/10 rounded-lg text-secondary">
+                                <TrendingUp className="w-5 h-5" />
+                            </div>
+                            Spread Velocity Analysis
                         </h3>
-                        <div className="flex gap-2">
-                            <Button variant="ghost" size="sm" className="text-xs border border-white/10 active:bg-white/10">1H</Button>
-                            <Button variant="ghost" size="sm" className="text-xs border border-white/10 bg-white/5">24H</Button>
-                            <Button variant="ghost" size="sm" className="text-xs border border-white/10 active:bg-white/10">7D</Button>
+                        <div className="flex gap-2.5 bg-surface-highlight/50 p-1.5 rounded-xl border border-border">
+                            {['1H', '24H', '7D'].map(t => (
+                                <Button key={t} variant="ghost" size="sm" className={cn(
+                                    "text-[10px] font-bold px-4 py-1.5 h-auto rounded-lg transition-all",
+                                    t === '24H' ? 'bg-surface shadow-sm text-foreground border border-border' : 'text-text-muted hover:text-foreground'
+                                )}>{t}</Button>
+                            ))}
                         </div>
                     </div>
-                    <div className="h-[350px] w-full">
+                    <div className="h-[350px] w-full pr-4">
                         <ResponsiveContainer width="100%" height="100%">
                             <LineChart data={spreadData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                                <defs>
-                                    <linearGradient id="lineGradient" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#00f3ff" stopOpacity={0.8} />
-                                        <stop offset="95%" stopColor="#00f3ff" stopOpacity={0} />
-                                    </linearGradient>
-                                </defs>
-                                <CartesianGrid strokeDasharray="3 3" stroke="#222" vertical={false} />
-                                <XAxis dataKey="time" stroke="#666" fontSize={12} tickLine={false} axisLine={false} dy={15} />
-                                <YAxis stroke="#666" fontSize={12} tickLine={false} axisLine={false} dx={-10} />
+                                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} opacity={0.5} />
+                                <XAxis
+                                    dataKey="time"
+                                    stroke="var(--text-dim)"
+                                    fontSize={10}
+                                    tickLine={false}
+                                    axisLine={false}
+                                    dy={15}
+                                    fontWeight="bold"
+                                    letterSpacing={1}
+                                />
+                                <YAxis
+                                    stroke="var(--text-dim)"
+                                    fontSize={10}
+                                    tickLine={false}
+                                    axisLine={false}
+                                    dx={-10}
+                                    fontWeight="bold"
+                                />
                                 <Tooltip
-                                    contentStyle={{ backgroundColor: '#050505', borderColor: '#333', color: '#fff', borderRadius: '8px', boxShadow: '0 4px 20px rgba(0,0,0,0.5)' }}
-                                    itemStyle={{ color: '#00f3ff', fontWeight: 'bold' }}
-                                    cursor={{ stroke: 'rgba(255,255,255,0.2)', strokeWidth: 1 }}
+                                    contentStyle={{
+                                        backgroundColor: 'var(--surface)',
+                                        borderColor: 'var(--border)',
+                                        color: 'var(--foreground)',
+                                        borderRadius: '12px',
+                                        padding: '12px',
+                                        fontSize: '12px',
+                                        boxShadow: '0 10px 30px -5px rgb(0 0 0 / 0.1)'
+                                    }}
+                                    itemStyle={{ color: 'var(--secondary)', fontWeight: 'bold' }}
+                                    cursor={{ stroke: 'var(--secondary)', strokeWidth: 1, strokeDasharray: '4 4' }}
                                 />
                                 <Line
                                     type="monotone"
                                     dataKey="mentions"
-                                    stroke="#00f3ff"
-                                    strokeWidth={3}
-                                    dot={{ fill: '#000', stroke: '#00f3ff', strokeWidth: 2, r: 4 }}
-                                    activeDot={{ r: 8, fill: '#00f3ff', stroke: '#fff', strokeWidth: 2 }}
-                                    animationDuration={1500}
+                                    stroke="var(--secondary)"
+                                    strokeWidth={4}
+                                    dot={{ fill: 'var(--surface)', stroke: 'var(--secondary)', strokeWidth: 3, r: 6 }}
+                                    activeDot={{ r: 9, fill: 'var(--secondary)', stroke: 'var(--surface)', strokeWidth: 3 }}
+                                    animationDuration={2000}
                                 />
                             </LineChart>
                         </ResponsiveContainer>

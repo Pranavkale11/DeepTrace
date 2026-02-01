@@ -12,7 +12,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
             <div
                 ref={ref}
                 className={cn(
-                    'relative rounded-md overflow-hidden transition-all duration-300',
+                    'relative rounded-md transition-all duration-300',
                     {
                         'bg-[var(--surface)] border border-[var(--border)]': variant === 'default',
                         'glass-card': variant === 'glass',

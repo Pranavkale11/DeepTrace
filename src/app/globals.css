@@ -2,67 +2,74 @@
 
 :root {
   /* Light Mode Palette */
-  --background: #f3f4f6;
-  /* Slightly gray for better contrast with white cards */
-  --foreground: #111827;
-  /* Dark gray, almost black */
+  --background: #f8fafc;
+  --foreground: #020617;
 
   --primary: #059669;
-  /* Darker green */
   --primary-dim: #047857;
-  --primary-glow: rgba(5, 150, 105, 0.2);
+  --primary-glow: rgba(5, 150, 105, 0.15);
 
   --secondary: #0891b2;
-  /* Darker blue */
   --secondary-dim: #0e7490;
-  --secondary-glow: rgba(8, 145, 178, 0.2);
+  --secondary-glow: rgba(8, 145, 178, 0.15);
 
-  --accent: #dc2626;
-  --accent-glow: rgba(220, 38, 38, 0.2);
+  --accent: #e11d48;
+  --accent-glow: rgba(225, 29, 72, 0.1);
 
   --surface: #ffffff;
-  --surface-highlight: #f9fafb;
-  --border: #e5e7eb;
+  --surface-highlight: #f1f5f9;
+  --border: #e2e8f0;
 
-  --glass: rgba(255, 255, 255, 0.9);
-  --glass-border: rgba(0, 0, 0, 0.1);
+  --text-muted: #64748b;
+  --text-dim: #94a3b8;
+
+  --glass: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(0, 0, 0, 0.05);
 
   /* Risk Levels */
   --risk-low: #059669;
-  --risk-medium: #ca8a04;
+  --risk-medium: #d97706;
   --risk-high: #dc2626;
+
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
 .dark {
   /* Cyber Palette (Default Dark) */
-  --background: #020202;
-  --foreground: #e0e0e0;
+  --background: #02040a;
+  --foreground: #f8fafc;
 
   --primary: #00ff41;
-  /* Cyber Green */
   --primary-dim: #00cc33;
-  --primary-glow: rgba(0, 255, 65, 0.4);
+  --primary-glow: rgba(0, 255, 65, 0.3);
 
   --secondary: #00f3ff;
-  /* Cyber Blue */
   --secondary-dim: #00c2cc;
-  --secondary-glow: rgba(0, 243, 255, 0.4);
+  --secondary-glow: rgba(0, 243, 255, 0.3);
 
   --accent: #ff003c;
-  /* Alert Red */
-  --accent-glow: rgba(255, 0, 60, 0.4);
+  --accent-glow: rgba(255, 0, 60, 0.3);
 
-  --surface: #080808;
-  --surface-highlight: #111111;
-  --border: #222222;
+  --surface: #0a0c12;
+  --surface-highlight: #161b22;
+  --border: #30363d;
 
-  --glass: rgba(10, 10, 10, 0.6);
+  --text-muted: #8b949e;
+  --text-dim: #484f58;
+
+  --glass: rgba(10, 12, 18, 0.7);
   --glass-border: rgba(255, 255, 255, 0.08);
 
   /* Risk Levels */
   --risk-low: #00ff41;
   --risk-medium: #ffe600;
   --risk-high: #ff003c;
+
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.5);
+  --shadow-lg: 0 10px 30px -3px rgb(0 0 0 / 0.7);
 }
 
 @theme inline {
@@ -76,6 +83,9 @@
   --color-surface-highlight: var(--surface-highlight);
   --color-border: var(--border);
 
+  --color-text-muted: var(--text-muted);
+  --color-text-dim: var(--text-dim);
+
   --color-risk-low: var(--risk-low);
   --color-risk-medium: var(--risk-medium);
   --color-risk-high: var(--risk-high);
@@ -83,14 +93,21 @@
   --font-sans: var(--font-outfit), ui-sans-serif, system-ui;
   --font-body: var(--font-inter), ui-sans-serif, system-ui;
   --font-mono: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas;
+
+  --shadow-cyber: var(--shadow-md);
+  --shadow-cyber-lg: var(--shadow-lg);
+}
+
+* {
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-body);
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Custom Utilities */
@@ -102,18 +119,13 @@ body {
 
 .glass-card {
   background: var(--surface);
-  /* Opaque surface for Better contrast in light mode */
   backdrop-filter: blur(16px);
   border: 1px solid var(--border);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  /* Standard shadow */
+  box-shadow: var(--shadow-cyber);
 }
 
-/* Dark mode specific overrides for glass-card to keep original look */
 .dark .glass-card {
-  background: rgba(15, 15, 15, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+  background: rgba(15, 20, 30, 0.4);
 }
 
 .neon-text-green {
@@ -125,14 +137,14 @@ body {
 }
 
 .neon-border-green {
-  box-shadow: 0 0 8px var(--primary-glow);
+  box-shadow: 0 0 15px var(--primary-glow);
   border-color: var(--primary);
 }
 
 /* Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -140,17 +152,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #ccc;
-  /* Lighter scrollbar for light mode */
-  border-radius: 3px;
-}
-
-.dark ::-webkit-scrollbar-thumb {
-  background: #333;
+  background: var(--border);
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--primary);
+  background: var(--text-muted);
 }
 
 /* Scanline effect (subtle) - Only in Dark Mode */
@@ -161,49 +168,32 @@ body {
       rgba(0, 0, 0, 0.1) 50%,
       rgba(0, 0, 0, 0.1));
   background-size: 100% 4px;
+  pointer-events: none;
 }
 
-/* 
-   LIGHT MODE OVERRIDES 
-   Fix for components using hardcoded 'text-white' or 'bg-white/5'.
-   This effectively remaps them in light mode.
-*/
-:root:not(.dark) .text-white {
-  color: var(--foreground) !important;
+/* Fix for components that might the hardcoded classes */
+.dark .text-white {
+  color: #fff !important;
 }
 
-:root:not(.dark) .text-gray-400 {
-  color: #4b5563 !important;
-  /* gray-600 */
+/* Animation for stats */
+@keyframes pulse-glow {
+  0% {
+    opacity: 0.5;
+    filter: blur(4px);
+  }
+
+  50% {
+    opacity: 1;
+    filter: blur(6px);
+  }
+
+  100% {
+    opacity: 0.5;
+    filter: blur(4px);
+  }
 }
 
-:root:not(.dark) .text-gray-300 {
-  color: #374151 !important;
-  /* gray-700 */
-}
-
-:root:not(.dark) .text-gray-500 {
-  color: #6b7280 !important;
-  /* gray-500 (readable) */
-}
-
-:root:not(.dark) .bg-white\/5 {
-  background-color: rgba(0, 0, 0, 0.05) !important;
-  border-color: rgba(0, 0, 0, 0.1) !important;
-}
-
-:root:not(.dark) .bg-black\/50 {
-  background-color: white !important;
-  border-color: #e5e7eb !important;
-  color: var(--foreground) !important;
-}
-
-/* Fix for Hero text gradient/glow in Light Mode */
-:root:not(.dark) .text-glow {
-  text-shadow: none !important;
-}
-
-/* Fix for Stat Cards hover border */
-:root:not(.dark) .hover\:border-white\/20:hover {
-  border-color: var(--primary) !important;
+.glow-animation {
+  animation: pulse-glow 3s infinite ease-in-out;
 }
