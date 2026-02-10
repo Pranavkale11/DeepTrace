@@ -1,0 +1,97 @@
+[
+    {
+        "id": "report_001",
+        "campaign_id": "camp_001",
+        "report_type": "campaign_analysis",
+        "title": "High-Threat Political Disinformation Campaign Detected",
+        "summary": "AI detected a coordinated campaign involving 47 accounts posting identical content about #Election2024. High bot involvement (62.7%) and suspicious timing patterns identified.",
+        "full_content": "## Executive Summary\n\nOn February 4, 2026, DeepTrace AI detected a coordinated influence campaign targeting the upcoming election. The campaign exhibits high coordination scores and significant bot involvement.\n\n## Key Findings\n\n- **Total Accounts**: 47\n- **Bot Probability**: 62.7%\n- **Coordination Score**: 89.3/100\n- **Content Similarity**: 91.5/100\n- **Platforms Affected**: Twitter, Facebook\n\n## Analysis\n\nThe campaign shows clear signs of coordination:\n\n1. **Identical Content**: 247 posts share only 3 unique content hashes\n2. **Timing Patterns**: 89 posts published within a 2-hour window\n3. **Bot Involvement**: 62.7% of accounts show bot-like behavior\n\n## Threat Assessment\n\n**Threat Level**: HIGH\n\nThis campaign poses a significant risk to election integrity due to:\n- High reach estimate (1.25M users)\n- Coordinated messaging\n- Bot amplification\n\n## Recommendations\n\n1. Monitor accounts for further activity\n2. Report to platform moderators\n3. Track hashtag spread across platforms\n4. Alert election security teams\n\n## Technical Details\n\n- **Detection Method**: rule_based_v1\n- **Confidence Score**: 87.5%\n- **Analysis Date**: 2026-02-04T10:32:00Z",
+        "severity": "high",
+        "status": "published",
+        "tags": [
+            "election2024",
+            "political",
+            "bots",
+            "coordination"
+        ],
+        "generated_by": "AI",
+        "generated_at": "2026-02-04T10:35:00Z",
+        "published_at": "2026-02-04T10:40:00Z",
+        "views_count": 127,
+        "metadata": {
+            "charts": [
+                {
+                    "type": "timeline",
+                    "title": "Post Activity Over Time",
+                    "data": [
+                        {
+                            "time": "10:00",
+                            "count": 15
+                        },
+                        {
+                            "time": "11:00",
+                            "count": 89
+                        },
+                        {
+                            "time": "12:00",
+                            "count": 67
+                        },
+                        {
+                            "time": "13:00",
+                            "count": 43
+                        },
+                        {
+                            "time": "14:00",
+                            "count": 33
+                        }
+                    ]
+                }
+            ],
+            "references": [
+                "Campaign ID: camp_001",
+                "Detection Method: rule_based_v1",
+                "Platforms: Twitter, Facebook"
+            ]
+        }
+    },
+    {
+        "id": "report_002",
+        "campaign_id": "camp_002",
+        "report_type": "threat_summary",
+        "title": "Critical: Bot Farm Spreading Malware Links",
+        "summary": "Large-scale bot network (89 accounts) detected spreading malicious links disguised as cybersecurity news. Immediate action recommended.",
+        "full_content": "## Executive Summary\n\nA critical threat has been identified involving a sophisticated bot farm spreading malware through fake cybersecurity alerts.\n\n## Key Findings\n\n- **Total Accounts**: 89\n- **Bot Probability**: 97.2%\n- **Coordination Score**: 95.8/100\n- **Total Posts**: 1,523\n- **Estimated Reach**: 3.4M users\n\n## Attack Vector\n\nThe campaign uses social engineering tactics:\n\n1. **Fake Urgency**: Posts claim \"URGENT security vulnerability\"\n2. **Malicious Links**: All posts contain links to malware sites\n3. **Bot Amplification**: 97.2% bot involvement ensures wide spread\n\n## Threat Assessment\n\n**Threat Level**: CRITICAL\n\nThis is an active malware distribution campaign with:\n- Extremely high bot involvement\n- Large potential victim pool (3.4M reach)\n- Sophisticated social engineering\n\n## Immediate Actions Required\n\n1. ⚠️ Report all accounts to Twitter security team\n2. ⚠️ Block malicious domains at network level\n3. ⚠️ Issue public warning about the campaign\n4. ⚠️ Monitor for campaign evolution\n\n## Technical Details\n\n- **Detection Method**: rule_based_v1\n- **Confidence Score**: 94.2%\n- **Analysis Date**: 2026-02-03T14:25:00Z\n- **Primary Platform**: Twitter",
+        "severity": "critical",
+        "status": "published",
+        "tags": [
+            "malware",
+            "botnet",
+            "cybersecurity",
+            "urgent"
+        ],
+        "generated_by": "AI",
+        "generated_at": "2026-02-03T14:25:00Z",
+        "published_at": "2026-02-03T14:30:00Z",
+        "views_count": 342,
+        "metadata": {
+            "charts": [
+                {
+                    "type": "platform_breakdown",
+                    "title": "Platform Distribution",
+                    "data": [
+                        {
+                            "platform": "twitter",
+                            "count": 1523,
+                            "percentage": 100
+                        }
+                    ]
+                }
+            ],
+            "references": [
+                "Campaign ID: camp_002",
+                "Detection Method: rule_based_v1",
+                "Malicious Domains: malicious-link.com"
+            ]
+        }
+    }
+]

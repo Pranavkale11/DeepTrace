@@ -7,8 +7,36 @@ import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
 import { motion, Variants } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { analyticsAPI, AnalyticsOverviewResponse } from '@/lib/api';
 
 export default function DashboardPage() {
+    const [isMounted, setIsMounted] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [analyticsData, setAnalyticsData] = useState<AnalyticsOverviewResponse['data'] | null>(null);
+
+    useEffect(() => setIsMounted(true), []);
+
+    // Fetch analytics data from backend
+    useEffect(() => {
+        const fetchAnalytics = async () => {
+            try {
+                setIsLoading(true);
+                setError(null);
+                const response = await analyticsAPI.getOverview();
+                setAnalyticsData(response.data);
+            } catch (err) {
+                console.error('❌ Error fetching analytics:', err);
+                setError(err instanceof Error ? err.message : 'Failed to load analytics data');
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchAnalytics();
+    }, []);
+
     const containerVariants: Variants = {
         hidden: { opacity: 0 },
         visible: {
@@ -28,7 +56,7 @@ export default function DashboardPage() {
     return (
         <motion.div
             variants={containerVariants}
-            initial={false}
+            initial={isMounted ? "hidden" : "visible"}
             animate="visible"
             className="flex flex-col gap-10 pb-10"
         >
@@ -54,17 +82,64 @@ export default function DashboardPage() {
                 </div>
             </motion.div>
 
-            {/* KPI Cards section wrapper */}
+            {/* KPI Cards section */}
             <motion.section
-                initial={false}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, ease: "easeOut" }}
+                variants={containerVariants}
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
             >
-                <StatCard title="Active Campaigns" value="12" trend="14%" trendUp icon={Share2} variant="default" index={0} />
-                <StatCard title="High Risk Alerts" value="3" trend="2" trendUp icon={AlertCircle} variant="danger" index={1} />
-                <StatCard title="Bot Networks" value="8" trend="Stable" trendUp={false} icon={Globe} variant="warning" index={2} />
-                <StatCard title="Mitigated Threats" value="1,240" trend="24%" trendUp icon={Shield} variant="success" index={3} />
+                {error ? (
+                    <div className="col-span-full">
+                        <Card className="p-6 border-risk-high/50 bg-risk-high/5">
+                            <div className="flex items-center gap-3 text-risk-high">
+                                <AlertCircle className="w-5 h-5" />
+                                <p className="font-semibold">Error loading data: {error}</p>
+                            </div>
+                        </Card>
+                    </div>
+                ) : (
+                    <div className="contents">
+                        <StatCard
+                            title="Active Campaigns"
+                            value={analyticsData?.stats.total_campaigns ?? 0}
+                            trend={`${analyticsData?.recent_activity.last_24h.new_campaigns ?? 0} new`}
+                            trendUp
+                            icon={Share2}
+                            variant="default"
+                            index={0}
+                            isLoading={isLoading}
+                        />
+                        <StatCard
+                            title="High Risk Alerts"
+                            value={analyticsData?.stats.high_risk_campaigns ?? 0}
+                            trend={`${analyticsData?.threat_distribution.critical ?? 0} critical`}
+                            trendUp
+                            icon={AlertCircle}
+                            variant="danger"
+                            index={1}
+                            isLoading={isLoading}
+                        />
+                        <StatCard
+                            title="Bot Networks"
+                            value={analyticsData?.stats.bot_accounts_detected ?? 0}
+                            trend="Monitoring"
+                            trendUp={false}
+                            icon={Globe}
+                            variant="warning"
+                            index={2}
+                            isLoading={isLoading}
+                        />
+                        <StatCard
+                            title="Total Posts Analyzed"
+                            value={analyticsData?.stats.total_posts_analyzed.toLocaleString() ?? '0'}
+                            trend={`${analyticsData?.recent_activity.last_24h.new_posts ?? 0} today`}
+                            trendUp
+                            icon={Shield}
+                            variant="success"
+                            index={3}
+                            isLoading={isLoading}
+                        />
+                    </div>
+                )}
             </motion.section>
 
             {/* Charts */}

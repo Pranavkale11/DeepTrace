@@ -2,27 +2,46 @@
 
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
-import { FileText, Download, Calendar, Lock, ShieldAlert, Zap, Search } from 'lucide-react';
+import { FileText, Download, Calendar, Lock, ShieldAlert, Zap, Search, AlertCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { useState, useEffect } from 'react';
-
-const mockReports = [
-    { id: 1, title: "Operational Summary: Border Misinformation Operation (Phase II)", date: "2026-02-01", severity: "High", summary: "Analytical summary of coordinated bot activity targeting border regions. Focus on attribution vectors and narrative escalation patterns." },
-    { id: 2, title: "Sentiment Analysis: Election Week Influence Matrix", date: "2026-01-28", severity: "Medium", summary: "Assessment of hashtag manipulation and sentiment drift during the peak election cycle. Identification of key synthetic persona clusters." },
-    { id: 3, title: "Technical Brief: Bot Amplification Network (Bolan Cluster)", date: "2026-01-25", severity: "High", summary: "Deep-dive into the technical infrastructure of the Bolan botnet. Port analysis, C2 server locations, and behavioral fingerprints." },
-    { id: 4, title: "Vector Report: Deepfake Proliferation in Sector 7", date: "2026-01-20", severity: "High", summary: "Tracking the spread of AI-generated media across regional community groups. Evaluation of mitigation effectiveness and platform response times." },
-    { id: 5, title: "Quarterly Threat Landscape: Emerging Synthetic Narratives", date: "2026-01-15", severity: "Low", summary: "Long-term trend analysis of influence operation methodologies. Evolution of cross-platform coordination and evasion techniques." },
-    { id: 6, title: "Attribution Study: Regional Unrest Narrative (Alpha)", date: "2026-01-10", severity: "Medium", summary: "Forensic study of coordinated posts during the Alpha incident. Correlation of IP addresses with known state-sponsored threat actors." },
-];
+import { reportsAPI, ReportsResponse } from '@/lib/api';
 
 export default function ReportsPage() {
     const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [reports, setReports] = useState<ReportsResponse['data']['reports']>([]);
 
     useEffect(() => {
-        const timer = setTimeout(() => setIsLoading(false), 1000);
-        return () => clearTimeout(timer);
+        const fetchReports = async () => {
+            try {
+                setIsLoading(true);
+                setError(null);
+                const response = await reportsAPI.getReports();
+
+                // Console.log API response before binding
+                console.log('🔄 Reports API response:', response);
+
+                setReports(response.data.reports);
+            } catch (err) {
+                console.error('❌ Error fetching reports:', err);
+                setError(err instanceof Error ? err.message : 'Failed to load intelligence reports');
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchReports();
     }, []);
+
+    const formatDate = (dateString: string) => {
+        return new Date(dateString).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        });
+    };
 
     return (
         <div className="space-y-10 pb-10">
@@ -42,10 +61,33 @@ export default function ReportsPage() {
                 </div>
             </motion.div>
 
-            {isLoading ? (
+            {error ? (
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="flex flex-col items-center justify-center py-20 text-center"
+                >
+                    <Card className="p-10 border-risk-high/30 bg-risk-high/5 text-center flex flex-col items-center gap-4 max-w-2xl">
+                        <div className="p-4 bg-risk-high/10 rounded-full text-risk-high">
+                            <AlertCircle className="w-8 h-8" />
+                        </div>
+                        <div>
+                            <h3 className="text-xl font-bold text-foreground mb-2">Report Access Denied</h3>
+                            <p className="text-text-muted font-medium mb-6">Unable to synchronize with the intelligence repository. Error: {error}</p>
+                        </div>
+                        <Button
+                            variant="outline"
+                            className="border-risk-high/50 text-risk-high hover:bg-risk-high/10"
+                            onClick={() => window.location.reload()}
+                        >
+                            RETRY CONNECTION
+                        </Button>
+                    </Card>
+                </motion.div>
+            ) : isLoading ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {[1, 2, 3, 4, 5, 6].map((i) => (
-                        <Card key={i} className="p-6 flex flex-col gap-5">
+                        <Card key={i} className="p-6 flex flex-col gap-5 h-[320px]">
                             <div className="flex justify-between">
                                 <Skeleton className="w-12 h-12 rounded-xl" />
                                 <Skeleton className="w-24 h-5 rounded" />
@@ -54,6 +96,7 @@ export default function ReportsPage() {
                             <div className="space-y-2">
                                 <Skeleton className="w-full h-4 rounded" />
                                 <Skeleton className="w-3/4 h-4 rounded" />
+                                <Skeleton className="w-1/2 h-4 rounded" />
                             </div>
                             <div className="mt-auto flex gap-3">
                                 <Skeleton className="flex-1 h-10 rounded" />
@@ -62,9 +105,9 @@ export default function ReportsPage() {
                         </Card>
                     ))}
                 </div>
-            ) : mockReports.length > 0 ? (
+            ) : reports.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {mockReports.map((report, idx) => (
+                    {reports.map((report, idx) => (
                         <motion.div
                             key={report.id}
                             initial={{ opacity: 0, y: 30 }}
@@ -83,7 +126,7 @@ export default function ReportsPage() {
                                     </div>
                                     <span className="text-[10px] text-text-muted flex items-center gap-1.5 font-mono bg-surface-highlight px-2.5 py-1.5 rounded border border-border group-hover:border-primary/20 transition-colors">
                                         <Calendar className="w-3.5 h-3.5" />
-                                        {report.date}
+                                        {formatDate(report.published_at)}
                                     </span>
                                 </div>
 
@@ -112,8 +155,8 @@ export default function ReportsPage() {
                                         <Lock className="w-4 h-4" />
                                     </Button>
                                 </div>
-                                {report.severity === 'High' && (
-                                    <div className="absolute top-0 right-0 w-2 h-2 bg-risk-high rounded-full m-3 animate-pulse shadow-[0_0_8px_var(--risk-high)]" title="High Priority" />
+                                {(report.severity === 'high' || report.severity === 'critical') && (
+                                    <div className="absolute top-0 right-0 w-2 h-2 bg-risk-high rounded-full m-3 animate-pulse shadow-[0_0_8px_var(--risk-high)]" title={`${report.severity.toUpperCase()} Priority`} />
                                 )}
                             </Card>
                         </motion.div>

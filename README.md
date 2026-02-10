@@ -22,7 +22,19 @@ Built for the INNOVIT 2026 Challenge.
    ```bash
    npm run dev
    ```
+## To run debckend this are the steps
 
+1. cd backend
+2. pip install -r requirements.txt
+3. uvicorn main:app --reload
+
+Open browser:
+
+👉 http://localhost:8000
+
+👉 http://localhost:8000/docs
+ ✅ (Swagger UI)
+ 
 3. Open [http://localhost:3000](http://localhost:3000) to view the application.
 
 ## Project Structure
@@ -36,3 +48,6 @@ Built for the INNOVIT 2026 Challenge.
 - **Interactive Dashboard**: Real-time charts and risk monitoring.
 - **Campaign Explorer**: Detailed analysis of bot networks (Anti-India Narratives).
 - **Responsive Design**: Fully mobile-compatible.
+
+
+

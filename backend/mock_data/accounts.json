@@ -1,0 +1,212 @@
+[
+    {
+        "id": "acc_001",
+        "platform": "twitter",
+        "platform_user_id": "tw_user_001",
+        "username": "@bot_user_47",
+        "account_created_at": "2025-12-15T08:30:00Z",
+        "follower_count": 234,
+        "following_count": 1892,
+        "post_count": 4567,
+        "verified": false,
+        "bot_probability": 94.7,
+        "account_type": "bot",
+        "risk_score": 87.3,
+        "first_seen": "2026-02-01T14:20:00Z",
+        "last_active": "2026-02-04T18:45:00Z",
+        "metadata": {
+            "profile_image": "default_egg.jpg",
+            "bio": "Sharing important news",
+            "location": "Unknown"
+        }
+    },
+    {
+        "id": "acc_002",
+        "platform": "twitter",
+        "platform_user_id": "tw_user_002",
+        "username": "@bot_user_48",
+        "account_created_at": "2025-12-15T09:15:00Z",
+        "follower_count": 189,
+        "following_count": 2103,
+        "post_count": 5234,
+        "verified": false,
+        "bot_probability": 92.3,
+        "account_type": "bot",
+        "risk_score": 84.1,
+        "first_seen": "2026-02-01T14:25:00Z",
+        "last_active": "2026-02-04T18:30:00Z",
+        "metadata": {
+            "profile_image": "default_egg.jpg",
+            "bio": "News enthusiast",
+            "location": "Unknown"
+        }
+    },
+    {
+        "id": "acc_003",
+        "platform": "facebook",
+        "platform_user_id": "fb_user_003",
+        "username": "John Smith",
+        "account_created_at": "2025-11-20T10:00:00Z",
+        "follower_count": 456,
+        "following_count": 1234,
+        "post_count": 2345,
+        "verified": false,
+        "bot_probability": 78.5,
+        "account_type": "suspicious",
+        "risk_score": 72.8,
+        "first_seen": "2026-02-02T08:00:00Z",
+        "last_active": "2026-02-04T17:15:00Z",
+        "metadata": {
+            "profile_image": "stock_photo.jpg",
+            "bio": "Proud citizen",
+            "location": "USA"
+        }
+    },
+    {
+        "id": "acc_004",
+        "platform": "twitter",
+        "platform_user_id": "tw_user_004",
+        "username": "@security_alert_bot",
+        "account_created_at": "2025-10-01T06:00:00Z",
+        "follower_count": 3421,
+        "following_count": 234,
+        "post_count": 8901,
+        "verified": false,
+        "bot_probability": 97.2,
+        "account_type": "bot",
+        "risk_score": 95.6,
+        "first_seen": "2026-02-03T14:00:00Z",
+        "last_active": "2026-02-04T19:00:00Z",
+        "metadata": {
+            "profile_image": "security_icon.jpg",
+            "bio": "Cybersecurity updates",
+            "location": "Global"
+        }
+    },
+    {
+        "id": "acc_005",
+        "platform": "twitter",
+        "platform_user_id": "tw_user_005",
+        "username": "@cyber_news_now",
+        "account_created_at": "2025-10-02T07:30:00Z",
+        "follower_count": 2987,
+        "following_count": 189,
+        "post_count": 7654,
+        "verified": false,
+        "bot_probability": 96.8,
+        "account_type": "bot",
+        "risk_score": 93.4,
+        "first_seen": "2026-02-03T14:05:00Z",
+        "last_active": "2026-02-04T18:55:00Z",
+        "metadata": {
+            "profile_image": "news_icon.jpg",
+            "bio": "Breaking cyber news",
+            "location": "Worldwide"
+        }
+    },
+    {
+        "id": "acc_006",
+        "platform": "reddit",
+        "platform_user_id": "rd_user_006",
+        "username": "u/happy_shopper_123",
+        "account_created_at": "2026-01-15T12:00:00Z",
+        "follower_count": 12,
+        "following_count": 45,
+        "post_count": 234,
+        "verified": false,
+        "bot_probability": 65.3,
+        "account_type": "suspicious",
+        "risk_score": 58.7,
+        "first_seen": "2026-02-02T08:30:00Z",
+        "last_active": "2026-02-04T12:00:00Z",
+        "metadata": {
+            "profile_image": "avatar_1.jpg",
+            "bio": "Love shopping!",
+            "location": "Unknown"
+        }
+    },
+    {
+        "id": "acc_007",
+        "platform": "reddit",
+        "platform_user_id": "rd_user_007",
+        "username": "u/product_lover_456",
+        "account_created_at": "2026-01-16T13:30:00Z",
+        "follower_count": 8,
+        "following_count": 32,
+        "post_count": 198,
+        "verified": false,
+        "bot_probability": 62.1,
+        "account_type": "suspicious",
+        "risk_score": 55.3,
+        "first_seen": "2026-02-02T09:00:00Z",
+        "last_active": "2026-02-04T11:30:00Z",
+        "metadata": {
+            "profile_image": "avatar_2.jpg",
+            "bio": "Product enthusiast",
+            "location": "Unknown"
+        }
+    },
+    {
+        "id": "acc_008",
+        "platform": "twitter",
+        "platform_user_id": "tw_user_008",
+        "username": "@truth_seeker_99",
+        "account_created_at": "2025-08-10T14:00:00Z",
+        "follower_count": 5678,
+        "following_count": 1234,
+        "post_count": 3456,
+        "verified": false,
+        "bot_probability": 45.2,
+        "account_type": "suspicious",
+        "risk_score": 67.8,
+        "first_seen": "2026-02-01T16:00:00Z",
+        "last_active": "2026-02-04T17:00:00Z",
+        "metadata": {
+            "profile_image": "profile_pic.jpg",
+            "bio": "Seeking the truth",
+            "location": "USA"
+        }
+    },
+    {
+        "id": "acc_009",
+        "platform": "facebook",
+        "platform_user_id": "fb_user_009",
+        "username": "Sarah Johnson",
+        "account_created_at": "2025-09-05T15:30:00Z",
+        "follower_count": 4321,
+        "following_count": 987,
+        "post_count": 2109,
+        "verified": false,
+        "bot_probability": 52.7,
+        "account_type": "suspicious",
+        "risk_score": 61.4,
+        "first_seen": "2026-02-01T16:30:00Z",
+        "last_active": "2026-02-04T16:45:00Z",
+        "metadata": {
+            "profile_image": "sarah_profile.jpg",
+            "bio": "Mother of 2, truth advocate",
+            "location": "Texas"
+        }
+    },
+    {
+        "id": "acc_010",
+        "platform": "twitter",
+        "platform_user_id": "tw_user_010",
+        "username": "@crypto_whale_88",
+        "account_created_at": "2026-01-20T10:00:00Z",
+        "follower_count": 892,
+        "following_count": 2345,
+        "post_count": 1234,
+        "verified": false,
+        "bot_probability": 38.9,
+        "account_type": "human",
+        "risk_score": 42.1,
+        "first_seen": "2026-01-30T11:00:00Z",
+        "last_active": "2026-01-31T09:00:00Z",
+        "metadata": {
+            "profile_image": "crypto_avatar.jpg",
+            "bio": "Crypto investor 🚀",
+            "location": "Singapore"
+        }
+    }
+]

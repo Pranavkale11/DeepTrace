@@ -31,7 +31,7 @@ export function Sidebar() {
                 </Link>
             </div>
 
-            <div className="flex-1 py-8 px-4 flex flex-col gap-1 relative">
+            <div className="flex-1 py-8 px-4 flex flex-col gap-1 relative overflow-y-auto">
                 <div className="px-3 mb-4 flex items-center justify-between">
                     <p className="text-[10px] font-mono text-text-muted uppercase tracking-[0.2em]">Analysis Modules</p>
                     <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shadow-[0_0_8px_var(--primary)]"></span>
@@ -42,10 +42,10 @@ export function Sidebar() {
                         const isActive = pathname === link.href;
                         return (
                             <motion.div
-                                key={`${link.href}-${isActive}`}
+                                key={link.href}
                                 initial={{ opacity: 0, x: -6 }}
                                 animate={{ opacity: 1, x: 0 }}
-                                transition={{ duration: 0.25, ease: "easeOut" }}
+                                transition={{ duration: 0.3, ease: "easeOut" }}
                                 className="relative"
                             >
                                 <Link
@@ -60,22 +60,28 @@ export function Sidebar() {
                                     <link.icon className={cn("w-4 h-4 transition-colors", isActive ? "text-primary" : "text-text-dim group-hover:text-foreground")} />
                                     <span className="relative z-10">{link.label}</span>
 
-                                    {isActive && (
-                                        <motion.span
-                                            layoutId="sidebar-active-pill"
-                                            className="absolute inset-0 bg-primary/5 rounded-md -z-0"
-                                            initial={false}
-                                            transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                                        />
-                                    )}
-
-                                    {isActive && (
-                                        <motion.span
-                                            layoutId="sidebar-active-indicator"
-                                            className="absolute left-0 w-1 h-2/3 bg-primary rounded-r-full"
-                                            transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                                        />
-                                    )}
+                                    <AnimatePresence>
+                                        {isActive && (
+                                            <>
+                                                <motion.span
+                                                    layoutId="sidebar-active-pill"
+                                                    className="absolute inset-0 bg-primary/5 rounded-md -z-0"
+                                                    initial={{ opacity: 0 }}
+                                                    animate={{ opacity: 1 }}
+                                                    exit={{ opacity: 0 }}
+                                                    transition={{ duration: 0.2 }}
+                                                />
+                                                <motion.span
+                                                    layoutId="sidebar-active-indicator"
+                                                    className="absolute left-0 w-1 h-2/3 bg-primary rounded-r-full"
+                                                    initial={{ opacity: 0, scaleY: 0 }}
+                                                    animate={{ opacity: 1, scaleY: 1 }}
+                                                    exit={{ opacity: 0, scaleY: 0 }}
+                                                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                                                />
+                                            </>
+                                        )}
+                                    </AnimatePresence>
                                 </Link>
                             </motion.div>
                         );

@@ -1,0 +1,92 @@
+[
+    {
+        "id": "threat_001",
+        "campaign_id": "camp_001",
+        "coordination_score": 89.3,
+        "bot_involvement_score": 62.7,
+        "content_similarity_score": 91.5,
+        "timing_pattern_score": 85.0,
+        "network_density_score": 73.2,
+        "overall_threat_score": 87.5,
+        "detection_method": "rule_based_v1",
+        "analyzed_at": "2026-02-04T10:32:00Z",
+        "analysis_metadata": {
+            "posts_analyzed": 247,
+            "unique_content_hashes": 3,
+            "time_window_hours": 2,
+            "platform_count": 2
+        }
+    },
+    {
+        "id": "threat_002",
+        "campaign_id": "camp_002",
+        "coordination_score": 95.8,
+        "bot_involvement_score": 97.2,
+        "content_similarity_score": 88.4,
+        "timing_pattern_score": 92.1,
+        "network_density_score": 89.7,
+        "overall_threat_score": 94.2,
+        "detection_method": "rule_based_v1",
+        "analyzed_at": "2026-02-03T14:25:00Z",
+        "analysis_metadata": {
+            "posts_analyzed": 1523,
+            "unique_content_hashes": 5,
+            "time_window_hours": 4,
+            "platform_count": 1
+        }
+    },
+    {
+        "id": "threat_003",
+        "campaign_id": "camp_003",
+        "coordination_score": 78.5,
+        "bot_involvement_score": 63.7,
+        "content_similarity_score": 82.3,
+        "timing_pattern_score": 65.4,
+        "network_density_score": 58.9,
+        "overall_threat_score": 72.8,
+        "detection_method": "rule_based_v1",
+        "analyzed_at": "2026-02-02T08:20:00Z",
+        "analysis_metadata": {
+            "posts_analyzed": 156,
+            "unique_content_hashes": 2,
+            "time_window_hours": 6,
+            "platform_count": 2
+        }
+    },
+    {
+        "id": "threat_004",
+        "campaign_id": "camp_004",
+        "coordination_score": 84.7,
+        "bot_involvement_score": 48.9,
+        "content_similarity_score": 86.2,
+        "timing_pattern_score": 79.3,
+        "network_density_score": 71.5,
+        "overall_threat_score": 81.3,
+        "detection_method": "rule_based_v1",
+        "analyzed_at": "2026-02-01T16:50:00Z",
+        "analysis_metadata": {
+            "posts_analyzed": 389,
+            "unique_content_hashes": 8,
+            "time_window_hours": 12,
+            "platform_count": 2
+        }
+    },
+    {
+        "id": "threat_005",
+        "campaign_id": "camp_005",
+        "coordination_score": 71.2,
+        "bot_involvement_score": 38.9,
+        "content_similarity_score": 75.6,
+        "timing_pattern_score": 62.8,
+        "network_density_score": 54.3,
+        "overall_threat_score": 68.5,
+        "detection_method": "rule_based_v1",
+        "analyzed_at": "2026-01-30T11:25:00Z",
+        "analysis_metadata": {
+            "posts_analyzed": 78,
+            "unique_content_hashes": 4,
+            "time_window_hours": 8,
+            "platform_count": 1
+        }
+    }
+]

@@ -19,7 +19,7 @@ interface StatCardProps {
 
 export function StatCard({ title, value, trend, trendUp, icon: Icon, variant = 'default', index = 0, isLoading }: StatCardProps) {
     const ref = useRef(null);
-    const isInView = useInView(ref, { once: true });
+    const isInView = useInView(ref, { once: true, margin: "-50px" });
 
     // Parse numeric value for animation
     const numericValue = typeof value === 'string'
@@ -52,55 +52,72 @@ export function StatCard({ title, value, trend, trendUp, icon: Icon, variant = '
     return (
         <motion.div
             ref={ref}
-            initial={false}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
+            variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0 }
+            }}
             transition={{
                 duration: 0.8,
-                delay: index * 0.1,
                 ease: [0.4, 0, 0.2, 1]
             }}
             aria-label={`${title}: ${value}`}
         >
-            <Card className="p-6 relative group hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-black/10 focus-within:ring-2 focus-within:ring-primary/20">
-                <div className="flex justify-between items-start mb-5">
-                    <div className={cn(
-                        "p-2.5 rounded-lg transition-colors duration-500",
-                        variant === 'danger' && "text-risk-high bg-risk-high/10",
-                        variant === 'warning' && "text-risk-medium bg-risk-medium/10",
-                        variant === 'success' && "text-risk-low bg-risk-low/10",
-                        variant === 'default' && "text-secondary bg-secondary/10",
-                    )}>
-                        <Icon className="w-5 h-5" />
-                    </div>
-                    {trend && (
-                        <div className={cn(
-                            "text-[10px] font-bold px-2 py-0.5 rounded-full border flex items-center gap-1",
-                            trendUp
-                                ? "text-risk-low bg-risk-low/10 border-risk-low/20"
-                                : "text-risk-high bg-risk-high/10 border-risk-high/20"
-                        )}>
-                            {trendUp ? '↑' : '↓'} {trend}
+            <Card className="p-6 relative group hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-black/10 focus-within:ring-2 focus-within:ring-primary/20 overflow-hidden">
+                {isLoading ? (
+                    // Loading skeleton
+                    <div className="animate-pulse">
+                        <div className="flex justify-between items-start mb-5">
+                            <div className="w-10 h-10 bg-surface-highlight rounded-lg" />
+                            <div className="w-16 h-5 bg-surface-highlight rounded-full" />
                         </div>
-                    )}
-                </div>
-
-                <div className="relative z-10">
-                    <div className="flex items-baseline gap-1">
-                        <h3 className="text-3xl font-bold text-foreground tracking-tight transition-colors">
-                            <ValueDisplay isNumber={isNumber} displayValue={displayValue} rawValue={value} />
-                        </h3>
+                        <div className="space-y-2">
+                            <div className="w-24 h-8 bg-surface-highlight rounded" />
+                            <div className="w-32 h-3 bg-surface-highlight rounded" />
+                        </div>
                     </div>
-                    <p className="text-xs font-bold text-text-muted uppercase tracking-widest mt-1.5">{title}</p>
-                </div>
+                ) : (
+                    <>
+                        <div className="flex justify-between items-start mb-5">
+                            <div className={cn(
+                                "p-2.5 rounded-lg transition-colors duration-500",
+                                variant === 'danger' && "text-risk-high bg-risk-high/10",
+                                variant === 'warning' && "text-risk-medium bg-risk-medium/10",
+                                variant === 'success' && "text-risk-low bg-risk-low/10",
+                                variant === 'default' && "text-secondary bg-secondary/10",
+                            )}>
+                                <Icon className="w-5 h-5" />
+                            </div>
+                            {trend && (
+                                <div className={cn(
+                                    "text-[10px] font-bold px-2 py-0.5 rounded-full border flex items-center gap-1",
+                                    trendUp
+                                        ? "text-risk-low bg-risk-low/10 border-risk-low/20"
+                                        : "text-risk-high bg-risk-high/10 border-risk-high/20"
+                                )}>
+                                    {trendUp ? '↑' : '↓'} {trend}
+                                </div>
+                            )}
+                        </div>
 
-                {/* Decorative Elements */}
-                <div className={cn(
-                    "absolute -bottom-6 -right-6 w-24 h-24 rounded-full blur-3xl opacity-5 group-hover:opacity-20 transition-opacity duration-700",
-                    variant === 'danger' && "bg-risk-high",
-                    variant === 'warning' && "bg-risk-medium",
-                    variant === 'success' && "bg-risk-low",
-                    variant === 'default' && "bg-secondary",
-                )} />
+                        <div className="relative z-10">
+                            <div className="flex items-baseline gap-1">
+                                <h3 className="text-3xl font-bold text-foreground tracking-tight transition-colors">
+                                    <ValueDisplay isNumber={isNumber} displayValue={displayValue} rawValue={value} />
+                                </h3>
+                            </div>
+                            <p className="text-xs font-bold text-text-muted uppercase tracking-widest mt-1.5">{title}</p>
+                        </div>
+
+                        {/* Decorative Elements */}
+                        <div className={cn(
+                            "absolute -bottom-6 -right-6 w-24 h-24 rounded-full blur-3xl opacity-5 group-hover:opacity-20 transition-opacity duration-700",
+                            variant === 'danger' && "bg-risk-high",
+                            variant === 'warning' && "bg-risk-medium",
+                            variant === 'success' && "bg-risk-low",
+                            variant === 'default' && "bg-secondary",
+                        )} />
+                    </>
+                )}
             </Card>
         </motion.div>
     );

@@ -2,29 +2,75 @@
 
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
-import { Search, Filter, AlertTriangle, Twitter, Facebook, Instagram, MessageCircle, MoreVertical } from 'lucide-react';
+import { Search, Filter, AlertTriangle, Twitter, Facebook, Instagram, MessageCircle, MoreVertical, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { campaignsAPI } from '@/lib/api';
 
-const campaigns = [
-    { id: '1', name: 'Coordinated Narrative Surge – Border Disinformation (Phase II)', risk: 95, status: 'Active', bots: 3420, platforms: ['twitter', 'facebook', 'telegram'], lastActive: '2 min ago' },
-    { id: '2', name: 'Hashtag Manipulation Campaign – Election Week Misinformation', risk: 88, status: 'Investigating', bots: 1850, platforms: ['twitter', 'instagram', 'whatsapp'], lastActive: '15 min ago' },
-    { id: '3', name: 'Bot Amplification Network – Regional Unrest Narrative (Bolan)', risk: 92, status: 'Blocking', bots: 5560, platforms: ['twitter', 'youtube', 'facebook'], lastActive: '1 hr ago' },
-    { id: '4', name: 'AI-Generated Persona Operation – Sector 7 Influence (Alpha)', risk: 75, status: 'Monitoring', bots: 430, platforms: ['reddit', 'twitter'], lastActive: '30 min ago' },
-    { id: '5', name: 'Cross-Platform Sentiment Manipulation – Economic Policy Vector', risk: 65, status: 'Resolved', bots: 120, platforms: ['facebook', 'youtube'], lastActive: '5 hrs ago' },
-    { id: '6', name: 'Deepfake Vector Proliferation – Institutional Trust Erosion', risk: 82, status: 'Active', bots: 2980, platforms: ['instagram', 'twitter', 'tiktok'], lastActive: 'Just now' },
-];
+// Helper functions for data mapping
+function getRelativeTime(dateString: string) {
+    const now = new Date();
+    const then = new Date(dateString);
+    const diffInMs = now.getTime() - then.getTime();
+    const diffInMins = Math.floor(diffInMs / (1000 * 60));
+    const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
+    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+
+    if (diffInMins < 1) return 'Just now';
+    if (diffInMins < 60) return `${diffInMins} min ago`;
+    if (diffInHours < 24) return `${diffInHours} hr${diffInHours > 1 ? 's' : ''} ago`;
+    return `${diffInDays} day${diffInDays > 1 ? 's' : ''} ago`;
+}
+
+function getPlatformsByType(type: string) {
+    const t = type?.toLowerCase() || 'default';
+    switch (t) {
+        case 'political': return ['twitter', 'facebook', 'telegram'];
+        case 'malware': return ['twitter', 'reddit'];
+        case 'commercial': return ['instagram', 'facebook', 'youtube'];
+        default: return ['twitter', 'facebook'];
+    }
+}
 
 export default function CampaignsPage() {
     const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [campaigns, setCampaigns] = useState<any[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
-        const timer = setTimeout(() => setIsLoading(false), 1200);
-        return () => clearTimeout(timer);
+        const fetchCampaigns = async () => {
+            try {
+                setIsLoading(true);
+                setError(null);
+                const response = await campaignsAPI.getCampaigns();
+
+                // Console.log API response before binding
+                console.log('🔄 Campaign API response:', response);
+
+                const mappedCampaigns = response.data.campaigns.map(c => ({
+                    id: c.id,
+                    name: c.title,
+                    risk: Math.round(c.confidence_score),
+                    status: c.status.charAt(0).toUpperCase() + c.status.slice(1),
+                    bots: c.total_accounts,
+                    platforms: getPlatformsByType(c.campaign_type),
+                    lastActive: getRelativeTime(c.last_activity)
+                }));
+
+                setCampaigns(mappedCampaigns);
+            } catch (err) {
+                console.error('❌ Error fetching campaigns:', err);
+                setError(err instanceof Error ? err.message : 'Failed to load campaigns data');
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchCampaigns();
     }, []);
 
     const filteredCampaigns = campaigns.filter(c =>
@@ -64,7 +110,29 @@ export default function CampaignsPage() {
                 </div>
             </motion.div>
 
-            {isLoading ? (
+            {error ? (
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                >
+                    <Card className="p-10 border-risk-high/30 bg-risk-high/5 text-center flex flex-col items-center gap-4">
+                        <div className="p-4 bg-risk-high/10 rounded-full text-risk-high">
+                            <AlertCircle className="w-8 h-8" />
+                        </div>
+                        <div>
+                            <h3 className="text-xl font-bold text-foreground mb-2">Connection Error</h3>
+                            <p className="text-text-muted font-medium max-w-md mx-auto">{error}</p>
+                        </div>
+                        <Button
+                            variant="outline"
+                            className="mt-2 border-risk-high/50 text-risk-high hover:bg-risk-high/10"
+                            onClick={() => window.location.reload()}
+                        >
+                            RETRY CONNECTION
+                        </Button>
+                    </Card>
+                </motion.div>
+            ) : isLoading ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {[1, 2, 3, 4, 5, 6].map((i) => (
                         <Card key={i} className="h-[280px] p-6 flex flex-col gap-5">
@@ -128,7 +196,7 @@ export default function CampaignsPage() {
 
                                     <div className="flex items-center justify-between mt-auto pt-6 border-t border-border/60 group-hover:border-primary/20 transition-colors">
                                         <div className="flex -space-x-2.5">
-                                            {camp.platforms.map((p, i) => (
+                                            {camp.platforms.map((p: string, i: number) => (
                                                 <div key={i} className="w-9 h-9 rounded-full bg-surface border border-border flex items-center justify-center text-text-muted z-10 hover:z-20 hover:scale-110 hover:text-primary hover:border-primary/50 transition-all shadow-sm group-hover:border-primary/30">
                                                     {p === 'twitter' && <Twitter className="w-4 h-4" />}
                                                     {p === 'facebook' && <Facebook className="w-4 h-4" />}
