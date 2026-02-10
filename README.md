@@ -22,7 +22,7 @@ Built for the INNOVIT 2026 Challenge.
    ```bash
    npm run dev
    ```
-## To run debckend this are the steps
+## To run backend this are the steps
 
 1. cd backend
 2. pip install -r requirements.txt
